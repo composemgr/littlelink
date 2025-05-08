@@ -1,12 +1,22 @@
+# nginx proxy address - http://172.17.0.1:59098
+
 name: littlelink
+x-logging: &default-logging
+  options:
+    max-size: '5m'
+    max-file: '1'
+  driver: json-file
+
 services:
   app:
     image: ghcr.io/techno-tim/littlelink-server:latest
     container_name: littlelink-app
-    hostname: littlelink
+    hostname: ${BASE_HOST_NAME:-$HOSTNAME}
     restart: always
     pull_policy: always
+    logging: *default-logging
     environment:
+      - TZ=${TZ:-America/New_York}
       - LANG=en
       - SKIP_HEALTH_CHECK_LOGS=true
       - META_TITLE=Jason M. Hempstead-Malak
