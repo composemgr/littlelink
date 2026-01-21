@@ -1,0 +1,110 @@
+# nginx proxy address - http://172.17.0.1:59098
+
+name: littlelink
+x-logging: &default-logging
+  options:
+    max-size: '5m'
+    max-file: '1'
+  driver: json-file
+
+services:
+  app:
+    image: ghcr.io/techno-tim/littlelink-server:latest
+    container_name: littlelink-app
+    hostname: ${BASE_HOST_NAME:-$HOSTNAME}
+    restart: always
+    pull_policy: always
+    logging: *default-logging
+    environment:
+      TZ: ${TZ:-America/New_York}
+      LANG: en
+      SKIP_HEALTH_CHECK_LOGS: true
+      META_TITLE: Jason M. Hempstead-Malak
+      META_DESCRIPTION: Jason M. Hempstead-Malak Links page
+      META_AUTHOR: Jason M. Hempstead-Malak
+      META_KEYWORDS: HomeLab, Tinkerer
+      META_INDEX_STATUS: all
+      THEME: Dark
+      AVATAR_URL: https://avatars.githubusercontent.com/u/126880
+      FAVICON_URL: https://avatars.githubusercontent.com/u/126880
+      AVATAR_2X_URL: https://avatars.githubusercontent.com/u/126880
+      AVATAR_ALT: Jason M. Hempstead-Malak profile pic
+      NAME: Jason M. Hempstead-Malak
+      BIO: Hey! Just a place where you can connect with me!
+      FOOTER: Thanks for stopping by!
+      OG_SITE_NAME: Jason M. Hempstead-Malak
+      OG_TITLE: Jason M. Hempstead-Malak
+      OG_DESCRIPTION: Jason M. Hempstead-Malak links page
+      OG_URL: https://casjay.link
+      OG_IMAGE: https://avatars.githubusercontent.com/u/126880
+      OG_IMAGE_WIDTH: 400
+      OG_IMAGE_HEIGHT: 400
+      TWITTER_CARD: summary_large_image
+      TWITTER_IMAGE: https://avatars.githubusercontent.com/u/126880
+      TWITTER_SITE: @casjay
+      TWITTER_CREATOR: @casjay
+      BUTTON_ORDER: RSS,BUYMEACOFFEE,PATREON,PAYPAL,CASHAPP,LINKED_IN,GITEA,GITHUB,GITLAB,YOUTUBE,MASTODON,MATRIX,BLUESKY,LEMMY,TWITCH,TWITTER,INSTAGRAM,DISCORD,FACEBOOK,TIKTOK,SNAPCHAT
+      GITHUB: https://github.com/casjay
+      TWITTER: https://twitter.com/casjay
+      INSTAGRAM: https://www.instagram.com/casjay
+      YOUTUBE: https://www.youtube.com/casjay
+      TWITCH: https://www.twitch.tv/casjay/
+      DISCORD: https://discord.gg/tRfDTxE2
+      TIKTOK: https://www.tiktok.com/@casjaysdev
+      KIT: https://kit.co/casjay
+      LINKED_IN: https://www.linkedin.com/in/casjay/
+      PRODUCT_HUNT: https://www.producthunt.com/@casjay
+      SNAPCHAT: https://www.snapchat.com/add/casjaysdev
+      SPOTIFY: https://open.spotify.com/user/casjay
+      REDDIT: https://www.reddit.com/u/casjay
+      MEDIUM: https://medium.com/@casjay
+      PINTEREST: https://www.pinterest.com/casjaysdev/
+      SOUND_CLOUD: https://soundcloud.com/casjay
+      FIGMA: https://www.figma.com/@casjay
+      TELEGRAM: https://telegram.org/
+      TUMBLR: https://www.tumblr.com/blog/casjay
+      STEAM: https://steamcommunity.com/id/casjay
+      VIMEO: https://vimeo.com/casjay
+      WORDPRESS: https://chmweb.wordpress.com/
+      GOODREADS: https://www.goodreads.com/casjay
+      LETTERBOXD: https://letterboxd.com/casjay
+      MASTODON: https://mastodon.casjay.social/@jason
+      MICRO_BLOG: https://micro.blog/casjay
+      WHATSAPP: https://www.whatsapp.com/
+      STRAVA: https://www.strava.com/athletes/153663713
+      BLUESKY: https://bsky.app/profile/casjay.bsky.social
+      BUYMEACOFFEE: https://www.buymeacoffee.com/casjay
+      GITLAB: https://www.gitlab.com/casjay
+      PATREON: https://www.patreon.com/casjay
+      DEVTO: https://dev.to/casjay
+      PAYPAL: https://www.paypal.me/casjaysdev
+      SLACK: https://mattermost.casjay.social/
+      STACKOVERFLOW: https://stackoverflow.com/users/2524088/casjay
+      LASTFM: https://last.fm/user/casjay
+      GITEA: https://casjay.work/
+      UNTAPPD: https://untappd.com/user/casjay
+      GHOST: https://casjay.ghost.io
+      TRAKT: https://trakt.tv/users/casjay
+      CASHAPP: https://cash.app/$$chmweb
+      KEYBASE: https://keybase.io/casjay
+      ONLYFANS: https://onlyfans.com/casjay
+      PRIVATEBIN: https://privatebin.net/
+      VENMO: https://venmo.com/
+      MATRIX: https://matrix.to/#/@casjay:matrix.org
+      FLICKR: https://www.flickr.com/casjay
+      DOCKERHUB: https://hub.docker.com/u/casjay
+      LEMMY: https://infosec.pub/u/casjay
+      X: https://x.com/casjay
+      CODEWARS: https://www.codewars.com/users/casjay
+      BANDCAMP: https://bandcamp.com/casjay
+      ORCID: https://orcid.org/0009-0004-6677-8736
+      RSS: https://malaks-us.github.io/jason/rss
+    ports:
+      - 172.17.0.1:59098:3000
+    networks:
+      - littlelink
+
+networks:
+  littlelink:
+    name: littlelink
+    external: false
