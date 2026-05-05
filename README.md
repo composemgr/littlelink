@@ -41,8 +41,8 @@ BASE_DOMAIN_NAME=
 
 ## 📂 Volumes
 
-- `./rootfs/config/littlelink` - Configuration files
-- `./rootfs/data/littlelink` - Application data
+- `./volumes/config/littlelink` - Configuration files
+- `./volumes/data/littlelink` - Application data
 
 ## 🔐 Security
 
