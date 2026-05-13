@@ -17,6 +17,8 @@ services:
     logging: *default-logging
     environment:
       TZ: ${TZ:-America/New_York}
+      CONTAINER_NAME: littlelink-app
+      HOSTNAME: ${BASE_HOST_NAME:-$HOSTNAME}
       LANG: en
       SKIP_HEALTH_CHECK_LOGS: true
       META_TITLE: Jason M. Hempstead-Malak
@@ -103,8 +105,30 @@ services:
       - 172.17.0.1:59098:3000
     networks:
       - littlelink
+      - proxy
+      - cloudflare
+    labels:
+      - 'traefik.enable=true'
+      - 'cloudflare.enable=true'
+      - 'traefik.docker.network=proxy'
+      - 'cloudflare.service=http://littlelink-app:3000'
+      - 'cloudflare.hostname=littlelink.${CLOUDFLARE_ZONE_NAME:-}'
+      - 'traefik.http.routers.littlelink-app.entrypoints=http'
+      - 'traefik.http.routers.littlelink-app-secure.tls=true'
+      - 'traefik.http.routers.littlelink-app.rule=Host($(${BASE_HOST_NAME:-$HOSTNAME}))'
+      - 'traefik.http.middlewares.littlelink-app-https-redirect.redirectscheme.scheme=https'
+      - 'traefik.http.routers.littlelink-app.middlewares=littlelink-app-https-redirect'
+      - 'traefik.http.routers.littlelink-app-secure.entrypoints=https'
+      - 'traefik.http.routers.littlelink-app-secure.rule=Host($(${BASE_HOST_NAME:-$HOSTNAME}))'
+      - 'traefik.http.routers.littlelink-app-secure.tls.certresolver=cloudflare'
+      - 'traefik.http.routers.littlelink-app-secure.service=littlelink-app'
+      - 'traefik.http.services.littlelink-app.loadbalancer.server.port=3000'
 
 networks:
   littlelink:
     name: littlelink
     external: false
+  proxy:
+    external: true
+  cloudflare:
+    external: true
