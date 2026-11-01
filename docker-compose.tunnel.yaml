@@ -1,0 +1,84 @@
+# nginx proxy address - http://172.17.0.1:64238
+name: littlelink
+x-logging: &default-logging
+  options:
+    max-size: '5m'
+    max-file: '1'
+  driver: json-file
+
+services:
+  app:
+    image: ghcr.io/techno-tim/littlelink-server:latest
+    container_name: littlelink-app
+    domainname: ${BASE_DOMAIN_NAME:-example.com}
+    hostname: ${BASE_HOST_NAME:-$HOSTNAME}
+    restart: always
+    pull_policy: always
+    logging: *default-logging
+    environment:
+      TZ: ${TZ:-America/New_York}
+      CONTAINER_NAME: littlelink-app
+      HOSTNAME: ${BASE_HOST_NAME:-$HOSTNAME}
+      LANG: en
+      SKIP_HEALTH_CHECK_LOGS: true
+      META_TITLE: LittleLink Server
+      META_DESCRIPTION: A self-hosted links page
+      META_AUTHOR: Your Name
+      META_KEYWORDS: HomeLab, Tinkerer
+      META_INDEX_STATUS: all
+      THEME: Dark
+      NAME: Your Name
+      BIO: Hey! Just a place where you can connect with me!
+      FOOTER: Thanks for stopping by!
+      OG_SITE_NAME: LittleLink Server
+      OG_TITLE: LittleLink Server
+      OG_DESCRIPTION: A self-hosted links page
+      OG_URL: https://example.com
+      OG_IMAGE: https://example.com/avatar.png
+      OG_IMAGE_WIDTH: 400
+      OG_IMAGE_HEIGHT: 400
+      TWITTER_CARD: summary_large_image
+      TWITTER_IMAGE: https://example.com/avatar.png
+      TWITTER_SITE: '@your-handle'
+      TWITTER_CREATOR: '@your-handle'
+      GITHUB: https://github.com/your-handle
+      TWITTER: https://twitter.com/your-handle
+      INSTAGRAM: https://www.instagram.com/your-handle
+      YOUTUBE: https://www.youtube.com/your-handle
+      TWITCH: https://www.twitch.tv/your-handle
+      DISCORD: https://discord.gg/replace-with-your-invite
+      TIKTOK: https://www.tiktok.com/@your-handle
+      KIT: https://kit.co/your-handle
+      LINKED_IN: https://www.linkedin.com/in/your-handle/
+      PRODUCT_HUNT: https://www.producthunt.com/@your-handle
+      SNAPCHAT: https://www.snapchat.com/add/your-handle
+      SPOTIFY: https://open.spotify.com/user/your-handle
+      REDDIT: https://www.reddit.com/user/your-handle
+      MEDIUM: https://medium.com/@your-handle
+      PINTEREST: https://www.pinterest.com/your-handle/
+      SOUND_CLOUD: https://soundcloud.com/your-handle
+      FIGMA: https://www.figma.com/@your-handle
+      TELEGRAM: https://t.me/your-handle
+      TUMBLR: https://your-handle.tumblr.com/
+      STEAM: https://steamcommunity.com/id/your-handle
+      VIMEO: https://vimeo.com/your-handle
+      GITEA: https://git.example.com/your-handle
+      GITLAB: https://gitlab.com/your-handle
+      MASTODON: https://mastodon.example.com/@your-handle
+      BLUESKY: https://bsky.app/profile/your-handle.bsky.social
+      MICRO_BLOG: https://micro.blog/your-handle
+      RSS: https://example.com/rss
+    labels:
+      - 'cloudflare.enable=true'
+      - 'cloudflare.service=http://littlelink-app:3000'
+      - 'cloudflare.hostname=${BASE_HOST_NAME:-$HOSTNAME}'
+    networks:
+      - littlelink
+      - cloudflare
+
+networks:
+  littlelink:
+    name: littlelink
+    external: false
+  cloudflare:
+    external: true
