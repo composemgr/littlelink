@@ -68,6 +68,12 @@ services:
       BLUESKY: https://bsky.app/profile/your-handle.bsky.social
       MICRO_BLOG: https://micro.blog/your-handle
       RSS: https://example.com/rss
+    healthcheck:
+      test: ['CMD', 'nc', '-z', '127.0.0.1', '3000']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
     labels:
       - 'cloudflare.enable=true'
       - 'cloudflare.service=http://littlelink-app:3000'
